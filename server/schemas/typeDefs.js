@@ -29,9 +29,10 @@ type Query {
 }
 
 type Mutation {
-    login(email: String, password: String): Auth
-    addUser(username: String, email: String, password: String): Auth
-    saveBook([authors], description: String, title: String, bookID: Int, image: String, link: String): User
+    login(email: String!, password: String!): Auth
+    addUser(username: String!, email: String!, password: String!): Auth
+    //do i need an authors typedef?
+    saveBook([authors], description: String, title: String, bookID: Int, image: String, link: String): Book
 }
 // remove a book? input type to handle all parameters?
 
