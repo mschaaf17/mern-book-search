@@ -4,7 +4,16 @@ const { signToken } = require('../utils/auth')
 //pull from controllers
 const resolvers = {
 Query: {
-    // 
+    me: async (parent, args, context)=> {
+        if(context.user) {
+            const userData = await User.findOne({})
+            .select('-_v -password')
+            .populate('books')
+
+            return userData
+        }
+        throw new AuthenticationError('You are not logged in')
+    }
 },
 
 
@@ -34,7 +43,32 @@ Mutation: {
     }
 },
 
-// saveBook: async
-//if context.user needs to logged in to save a book
+saveBook: async (parent, args, context) => {
+    if (context.user) {
+        const updatedBooks = await User.findOneAndUpdate(
+            {_id: context.user._id},
+            {$addToSet: {savedBooks: args.bookId}},
+            {new: true}
+        )
+        return updatedBooks
+    }
+    throw new AuthenticationError('Please log in to access the saved books.')
+},
+
+removeBook: async (parent, args, context) => {
+    if(context.user) {
+    const updatedBooks = await User.findOneAndUpdate(
+        { _id: context.user._id },
+        { $pull: { savedBooks: { bookId: args.bookId } } },
+        { new: true }
+    );
+
+    return updatedBooks;
+    }
+
+    throw new AuthenticationError('You need to be logged in!');
+}
 
 }
+
+module.exports = resolvers;
