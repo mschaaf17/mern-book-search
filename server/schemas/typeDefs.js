@@ -31,9 +31,7 @@ type Query {
 type Mutation {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
-
-    //do i need an authors typedef?
-    saveBook([authors], description: String, title: String, bookID: Int, image: String, link: String): User
+    saveBook(authors: [String], description: String, title: String, bookId: Int, image: String, link: String): User
     removeBook(bookId: ID!): User
 }
 
