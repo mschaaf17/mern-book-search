@@ -1,18 +1,26 @@
 const {AuthenticationError} = require('apollo-server-express')
 const { signToken } = require('../utils/auth')
+const { User } = require('../models')
 
 //pull from controllers
 const resolvers = {
 Query: {
     me: async (parent, args, context)=> {
-        if(context.user) {
-            const userData = await User.findOne({})
-            .select('-_v -password')
-            .populate('books')
-
-            return userData
+        try {
+            if(context.user) {
+                
+                const userData = await User.findOne({_id: context.user._id})
+                .select('-_v -password')
+                .populate('savedBooks')
+                console.log(userData)
+                return userData
+            }
+            throw new AuthenticationError('You are not logged in')
+        } catch (err) {
+            console.log(err)
+            throw new AuthenticationError('error has occured')
         }
-        throw new AuthenticationError('You are not logged in')
+       
     }
 },
 
@@ -20,6 +28,7 @@ Query: {
 
 Mutation: {
     addUser: async (parent, args) => {
+        console.log('============')
         const user = await User.create(args)
         const token = signToken(user)
         return {token, user};
