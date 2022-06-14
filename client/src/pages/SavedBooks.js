@@ -3,7 +3,6 @@
  import {GET_ME} from '../utils/queries'
  import {REMOVE_BOOK} from '../utils/mutations'
 
-//21.3.5 loading data???
 
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
@@ -17,7 +16,7 @@ const SavedBooks = () => {
    console.log(data)
     const [removeBook, {error}] = useMutation(REMOVE_BOOK)
 
-    const userData = data?.me || []
+    const userData = data?.me || {}
 
 
   // use this to determine if `useEffect()` hook needs to run again
@@ -57,7 +56,7 @@ const SavedBooks = () => {
     }
 
     try {
-      // const {data} = 
+      const {data} = 
       await removeBook({
         variables: {bookId}
       });

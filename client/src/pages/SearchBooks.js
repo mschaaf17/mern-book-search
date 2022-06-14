@@ -70,7 +70,7 @@ const [saveBook, {error}] = useMutation(SAVE_BOOK)
     }
 
     try {
-      // const {data} =
+      const {data} =
        await saveBook({
         variables: {...bookToSave}
       });
