@@ -61,14 +61,14 @@ saveBook: async (parent, args, context) => {
         )
         return updatedBooks
     }
-    throw new AuthenticationError('Please log in to access the saved books.')
+    throw new AuthenticationError('Please log in to access your saved books.')
 },
 
-removeBook: async (parent, args, context) => {
+removeBook: async (parent, { bookId }, context) => {
     if(context.user) {
     const updatedBooks = await User.findOneAndUpdate(
         { _id: context.user._id },
-        { $pull: { savedBooks: { bookId: args.bookId } } },
+        { $pull: { savedBooks: { bookId: bookId } } },
         { new: true }
     );
 
