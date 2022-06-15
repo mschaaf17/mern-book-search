@@ -49,7 +49,7 @@ mutation removeBook($bookId: String) {
         _id
         username
         bookCount
-        savedbooks {
+        savedBooks {
             bookId
             title
             image
