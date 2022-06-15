@@ -53,9 +53,10 @@ Mutation: {
 
 saveBook: async (parent, args, context) => {
     if (context.user) {
+        console.log(args)
         const updatedBooks = await User.findOneAndUpdate(
             {_id: context.user._id},
-            {$addToSet: {savedBooks: args.bookId}},
+            {$addToSet: {savedBooks: args}},
             {new: true}
         )
         return updatedBooks
